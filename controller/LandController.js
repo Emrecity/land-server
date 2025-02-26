@@ -13,35 +13,43 @@ cloudinary.config({
 
 
 exports.CreateLand = asyncErrorHandler(async(req,res,next)=>{
-    const findLand = await Land.find().where('plotNo').equals(req.body?.plotNo).where('locality').equals(req.body.locality).where('streetname').equals(req.body.streetname)
+    const { plotNo,streetname }=req.body
+    const LandData = await Land.find()
+    const findLand = await LandData?.find((land)=>land.plotNo==plotNo && land.streetname==streetname)
     if(!findLand){
-    if(req.file){
-        const response = await cloudinary.uploader.upload(req.file.path,{
-          folder:'land',
-          use_filename:true,
-          tags:'land'
-         })
-      if(response){
-        req.body.owners_image = response.secure_url
-                  }
-    }
-    const Creationresponse = await Land.create(req.body)
-    if(Creationresponse){
-        res.status(201).json({
-            status:'Success',
-            message:'land created',
-            data:response
-        })
-    }
-    if(!Creationresponse){
-        res.status(400).json({
-            status:'Failed',
-            message:'Unable to create land'
-        })
-    }
-}
-    if(findLand){
+
+        if(req.file){
+            const response = await cloudinary.uploader.upload(req.file.path,{
+              folder:'land',
+              use_filename:true,
+              tags:'land'
+             })
+          if(response){
+            req.body.owners_image = response.secure_url
+                      }
+        }
+    
+        const result = await Land.create(req.body)
+    
+        if(result){
+            res.status(200).json({
+                status:'Success',
+                message:'land created'
+            })
+        }
+        if(!result){
+            res.status(400).json({
+                status:'failed',
+                message:'land creation failed'
+            })
+        }
         
+    }
+    if(findLand){
+        res.status(404).json({
+            status:'Failed',
+            message:'land already exist'
+        })
     }
 })
 

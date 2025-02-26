@@ -13,6 +13,7 @@ const port = 3000;
 
 
 // 'mongodb://localhost:27017/LandDB'
+// 'mongodb+srv://developer:admindeveloper@cluster0.uyzez.mongodb.net/landDB?retryWrites=true&w=majority&appName=Cluster0'
 
 mongoose.connect('mongodb+srv://developer:admindeveloper@cluster0.uyzez.mongodb.net/landDB?retryWrites=true&w=majority&appName=Cluster0').then(()=>{
     console.log('Db connected')
