@@ -8,4 +8,7 @@ router.route('/login')
 router.route('/change-default-password/:id')
 .post(AuthencationController.changePassword)
 
+router.route('/forgot-password')
+.post(AuthencationController.forgotPassword)
+
 module.exports = router

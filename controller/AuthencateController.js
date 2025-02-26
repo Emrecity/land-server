@@ -45,3 +45,19 @@ exports.changePassword = asyncErrorHandler(async(req,res,next)=>{
         })
     }
 })
+
+exports.forgotPassword = asyncErrorHandler(async(req,res,next)=>{
+    const response = await User.findOne({email:req.body.email})
+    if(response){
+        res.status(200).json({
+            status:'Success',
+            id:response._id,
+        })
+    }
+    if(!response){
+        res.status(404).json({
+            status:'Failed',
+            message:'No user found'
+        })
+    }
+})
