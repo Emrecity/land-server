@@ -23,6 +23,8 @@ exports.CreateLand = asyncErrorHandler(async(req,res,next)=>{
         req.body.owners_image = response.secure_url
                   }
     }
+    const findLand = await Land.findOne({plotNo:req.body.plotNo,streetname:req.body.streetname})
+    if(!findLand){
     const Creationresponse = await Land.create(req.body)
     if(Creationresponse){
         res.status(201).json({
@@ -37,7 +39,13 @@ exports.CreateLand = asyncErrorHandler(async(req,res,next)=>{
             message:'Unable to create land'
         })
     }
-
+}
+    if(findLand){
+        res.status(400).json({
+            status:'Failed',
+            message:'Land already exists'
+        })
+    }
 })
 
 exports.getAllLand = asyncErrorHandler(async(req,res,next)=>{
