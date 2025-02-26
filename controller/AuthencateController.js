@@ -1,6 +1,6 @@
 const asyncErrorHandler = require('../utils/asyncErrorHandler')
 const User = require('../model/UserModel')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 exports.login = asyncErrorHandler(async(req,res,next)=>{
     const data = req.body
