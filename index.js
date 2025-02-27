@@ -1,4 +1,6 @@
+
 const express = require('express');
+const helmet = require('helmet')
 const UserRoute = require('./routes/UserRoute')
 const LandRoute = require('./routes/LandRoute')
 const SettingRoute = require('./routes/SettingsRoute')
@@ -15,6 +17,7 @@ const port = 3000;
 // 'mongodb://localhost:27017/LandDB'
 // 'mongodb+srv://developer:admindeveloper@cluster0.uyzez.mongodb.net/landDB?retryWrites=true&w=majority&appName=Cluster0'
 
+
 mongoose.connect('mongodb+srv://developer:admindeveloper@cluster0.uyzez.mongodb.net/landDB?retryWrites=true&w=majority&appName=Cluster0').then(()=>{
     console.log('Db connected')
     app.listen( port,()=>{
@@ -30,6 +33,7 @@ app.use(express.static('public'));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.raw({limit:'25KB'}))
+app.use(helmet())
 app.use('/api/v1/user',UserRoute)
 app.use('/api/v1/land',LandRoute)
 app.use('/api/v1/setting',SettingRoute)
